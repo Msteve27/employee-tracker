@@ -21,119 +21,70 @@ const fs = require('fs');
 
 const questions = [
     {
+        type: 'checkbox',
+        name: 'overview',
+        message: 'What would you like to do?',
+        choices: [
+            {name: 'view all departments'},
+            {name: 'view all roles'},
+            {name: 'view all employees'},
+            {name: 'add a department'},
+            {name: 'add a role'},
+            {name: 'add an employee'},
+            {name: 'update an employee role'},
+        ]
+    },
+    {
         type: 'input',
-        name: 'title',
-        message:'What is the title of your project? (required)',
-        validate: titleInput => {
-            if (titleInput) {
-                return true;
-            } else {
-                console.log('Please enter your project title.');
-                return false;
-            }
-        }
+        name: 'depertmentName',
+        message:'What is the name of the department?',
     },
     {
         type:'input',
-        name:'description',
-        message:'Give a description of your project: (required)',
-        validate: descriptionInput => {
-            if (descriptionInput) {
-                return true;
-            } else {
-                console.log('Please enter a description of your project.');
-                return false;
-            }
-        }
+        name:'roleName',
+        message:'What is the name of the role?',
     },
     {
         type:'input',
-        name: 'installation',
-        message:'What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running. (required)',
-        validate: installationInput => {
-            if (installationInput) {
-                return true;
-            } else {
-                console.log('Please enter installation instructions for your project.');
-                return false;
-            }
-        }
+        name: 'roleSalary',
+        message:'What is the salary of the role?',
     },
     {
         type:'input',
-        name: 'screenshot',
-        message:'Please upload screenshot to the images folder and copy relative path here. (required)',
-        validate: screenshotInput => {
-            if (screenshotInput) {
-                return true;
-            } else {
-                console.log('Please enter a path to the screenshot.');
-                return false;
-            }
-        }
+        name: 'roleDepartment',
+        message:'Which department does the role belong to?',
+    },
+    {
+        type:'input',
+        name: 'eployeeName',
+        message:"What is the employee's first name?",
+    },
+    {
+        type:'input',
+        name: 'eployeeLastName',
+        message:"What is the employee's last name?",
+    },
+    {
+        type:'input',
+        name: 'employeeRole',
+        message:"What is the employee's role?",
+    },
+    {
+        type:'input',
+        name: 'employeeManager',
+        message:"Who is the employee's manager?",
     },
     {
         type: 'checkbox',
         name: 'license',
-        message: 'Please select a license',
+        message: "Which employee's role do you want to update?",
         choices: [
-            {name: 'MIT'},
-            {name: 'Apache'},
-            {name: 'BSD'},
-            {name: 'GNU'},
-            {name: 'ISC'},
+            {name: ''},
+            {name: ''},
+            {name: ''},
+            {name: ''},
+            {name: ''},
         ]
-    },
-    {
-        type:'input',
-        name: 'username',
-        message:'What is your GitHub username?(required)',
-        validate: githubInput => {
-            if (githubInput) {
-                return true;
-            } else {
-                console.log('Please enter your GitHub username.');
-                return false;
-            }
-        }
-    },
-    {
-        type:'input',
-        name: 'email',
-        message:'What is your email?(required)',
-        validate: emailInput => {
-            if (emailInput) {
-                return true;
-            } else {
-                console.log('Please enter your email.');
-                return false;
-            }
-    
-      }
-    },
-    {
-        type: 'confirm',
-        name: 'confirmContributors',
-        message:'Did anyone else contribute to this project?',
-        default: false
-    },
-    {
-        type: 'input',
-        name: 'contributors',
-        message:'List the GitHub profile links to all contributors on this project',
-        when: ({confirmContributors}) => confirmContributors
-    },
-    {
-        type: 'confirm',
-        name: 'confirmTests',
-        message:'Do you have any tests written for this project?',
-        default: false
-    },
-    {
-        type: 'input',
-        name: 'tests',
-        message:'Go the extra mile and write tests for your application. Then provide examples on how to run them.',
-        when: ({confirmTests}) => confirmTests
     },
 ]
 
