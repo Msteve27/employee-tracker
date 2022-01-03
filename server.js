@@ -34,59 +34,125 @@ app.use((req, res) => {
 
 
 // returns all data in the department table
-db.query(`SELECT * FROM department`, (err, rows) => {
-    console.log(rows);
+app.get('/api/department', (req, res) => {
+    const sql = `SELECT * FROM department`;
+  
+    db.query(sql, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: rows
+      });
+    });
 });
 
+
 // returns all data in the employee_role table
-db.query(`SELECT * FROM employee_role`, (err, rows) => {
-    console.log(rows);
+app.get('/api/employee_role', (req, res) => {
+    const sql = `SELECT * FROM employee_role`;
+  
+    db.query(sql, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: rows
+      });
+    });
 });
 
 // returns all data in the employee table
-db.query(`SELECT * FROM employee`, (err, rows) => {
-    console.log(rows);
+app.get('/api/employee', (req, res) => {
+    const sql = `SELECT * FROM employee`;
+  
+    db.query(sql, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: rows
+      });
+    });
 });
 
 // Create a department
-const sql = `INSERT INTO department (id, name) 
-              VALUES (?,?)`;
-const params = [1, 'Accounting'];
-
-db.query(sql, params, (err, result) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result);
+app.post('/api/department', ({ body }, res) => {  
+    const sql = `INSERT INTO department (name) VALUES (?)`;
+    const params = [
+      body.name
+    ];
+  
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: body,
+        changes: result.affectedRows
+      });
+    });
 });
-
+  
 // Create an employee_role
-const sql = `INSERT INTO employee_role (id, title, salary, department_id) 
-              VALUES (?,?,?,?)`;
-const params = [1, 'Accountant', 100,000, 10];
-
-db.query(sql, params, (err, result) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result);
+app.post('/api/employee_role', ({ body }, res) => {
+    const sql = `INSERT INTO employee_role (title, salary, department_id) VALUES (?,?,?)`;
+    const params = [
+      body.title,
+      body.salary,
+      body.department.id
+    ];
+  
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: body,
+        changes: result.affectedRows
+      });
+    });
 });
 
 // Create an employee
-const sql = `INSERT INTO employee (id, name) 
-              VALUES (?,?,?,?,?)`;
-const params = [1, 'Matt', 'Stevens', 20, 30];
-
-db.query(sql, params, (err, result) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result);
+app.post('/api/employee', ({ body }, res) => {
+    const sql = `INSERT INTO employee (title, salary, department_id) VALUES (?,?,?)`;
+    const params = [
+      body.first_name,
+      body.last.name,
+      body.role.id,
+      body.manager_id
+    ];
+  
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: body,
+        changes: result.affectedRows
+      });
+    });
 });
 
 
-
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Start server after DB connection
+db.connect(err => {
+    if (err) throw err;
+    console.log('Database connected.');
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
 });
